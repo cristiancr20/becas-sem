@@ -26,7 +26,7 @@ exports.crearUsuario = (req, res) => {
 
 // Obtener todos los usuarios
 exports.obtenerUsuarios = (req, res) => {
-    
+
     usuario.find({}, (error, usuarios) => {
         if (error) {
             res.status(400).send('Hubo un error');
@@ -38,3 +38,21 @@ exports.obtenerUsuarios = (req, res) => {
 }
 
 // Iniciar sesion por roles
+
+const { correo, contrasena } = req.body;
+
+usuario.findOne({ correo }, (error, user) => {
+    if (error || !user) {
+        console.log("Error, persona no encontrada");
+    }
+
+    const email = user.email;
+    const password = user.contrasena;
+    const rol = user.rol;
+
+    if (correo === email && contrasena === password && rol === "Tester") {
+        console.log("Bienvenido Tester");
+    } else {
+        console.log("Campos Invalidos")
+    }
+})
