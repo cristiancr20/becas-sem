@@ -32,7 +32,6 @@ const nuevoUsuario = mongoose.Schema({
         type: String,
         trim: true,
         require: true,
-        unique: true
     },
     genero: {
         type: String,
@@ -44,7 +43,6 @@ const nuevoUsuario = mongoose.Schema({
         type: String,
         required: true,
         trim: true,
-        unique: true
     }
 
 }, { versionKey: false })

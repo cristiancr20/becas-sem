@@ -39,20 +39,28 @@ exports.obtenerUsuarios = (req, res) => {
 
 // Iniciar sesion por roles
 
-const { correo, contrasena } = req.body;
+exports.iniciarSesion = (req, res) => {
 
-usuario.findOne({ correo }, (error, user) => {
-    if (error || !user) {
-        console.log("Error, persona no encontrada");
-    }
+    const { email, contrasena } = req.body;
 
-    const email = user.email;
-    const password = user.contrasena;
-    const rol = user.rol;
+    console.log(req.body)
+    usuario.findOne({ email }, (error, user) => {
+        if (error || !user) {
+            console.log("Error, persona no encontrada");
+        }
 
-    if (correo === email && contrasena === password && rol === "Tester") {
-        console.log("Bienvenido Tester");
-    } else {
-        console.log("Campos Invalidos")
-    }
-})
+        const correo = user.email;
+        const password = user.contrasena;
+        const rol = user.rol;
+
+        if (correo === email && contrasena === password && rol === "Tester") {
+            console.log("Bienvenido Tester");
+        } else if (correo === email && contrasena === password && rol === "Estudiante") {
+            console.log("Bienvenido Estudiante");
+            res.redirect('/home');
+        }
+        else {
+            console.log("Campos Invalidos")
+        }
+    })
+}
