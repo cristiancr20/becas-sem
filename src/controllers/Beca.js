@@ -1,10 +1,9 @@
-const {parse, stringify} = require('flatted');
-
 const beca = require('../models/beca');
 
 // Crear una nueva beca
 exports.crearBeca = (req, res) => {
-    const { nombre, apellido, email, cedula, telefono, genero, tipoBeca } = req.body;
+
+    const { nombre, apellido, email, cedula, telefono, genero, tipoBeca, fichaEstudiantil, estado } = req.body;
     const nuevaBeca = new beca({
         nombre,
         apellido,
@@ -12,7 +11,9 @@ exports.crearBeca = (req, res) => {
         cedula,
         telefono,
         genero,
-        tipoBeca
+        tipoBeca,
+        fichaEstudiantil,
+        estado: "Pendiente",
     });
     try {
         nuevaBeca.save();
@@ -24,16 +25,82 @@ exports.crearBeca = (req, res) => {
     }
 }
 
-// Obtener todas las becas
+// Obtener todas las becas pendientes
 exports.obtenerBecas = (req, res) => {
-    
-    beca.find({}, (error, becas) => {
-        if (error) {
-            res.status(400).send('Hubo un error');
-        } else {
-            res.json(becas);
+    beca.find({ estado: "Pendiente" }).exec((err, data) => {
+        if (err) {
+            return res.status(400).json({
+                error: errorHandler(err)
+            });
         }
-    }
-    )
-    
+        return res.render('tester_revisar_becas.ejs', { data: data })
+        /* console.log(data) */
+    })
+}
+
+// Obtener todas las becas aprobadas
+exports.obtenerBecasAprobadas = (req, res) => {
+    beca.find({ estado: "Aprobada" }).exec((err, data) => {
+        if (err) {
+            return res.status(400).json({
+                error: errorHandler(err)
+            });
+        }
+        return res.render('tester_solicitudes_aprobadas.ejs', { data: data })
+        /* console.log(data) */
+
+    })
+}
+
+// Obtener todas las becas rechazadas
+
+exports.obtenerBecasRechazadas = (req, res) => {
+    beca.find({ estado: "Rechazada" }).exec((err, data) => {
+        if (err) {
+            return res.status(400).json({
+                error: errorHandler(err)
+            });
+        }
+        return res.render('tester_solicitudes_rechazadas.ejs', { data: data })
+        /* console.log(data) */
+
+    })
+}
+
+//Editar beca aprobada
+exports.editarBecaAprobada = (req, res) => {
+    const id = req.params._id;
+    beca.findByIdAndUpdate(id, { estado: "Aprobada" }, { new: true })
+        .then((beca) => {
+            if (!beca) {
+                return res.status(404).send({
+                    message: "No se encontro la beca con el id " + id
+                });
+            }
+            res.redirect('/solicitudes/becas')
+        }).catch((err) => {
+            return res.status(404).send({
+                message: "Error al actualizar la beca con el id " + id
+            });
+        }
+        );
+}
+
+//Editar beca rechazada
+exports.editarBecaRechazada = (req, res) => {
+    const id = req.params._id;
+    beca.findByIdAndUpdate(id, { estado: "Rechazada" }, { new: true })
+        .then((beca) => {
+            if (!beca) {
+                return res.status(404).send({
+                    message: "No se encontro la beca con el id " + id
+                });
+            }
+            res.redirect('/solicitudes/becas')
+        }).catch((err) => {
+            return res.status(404).send({
+                message: "Error al actualizar la beca con el id " + id
+            });
+        }
+        );
 }

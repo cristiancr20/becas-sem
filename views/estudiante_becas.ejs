@@ -13,7 +13,7 @@
 </head>
 
 <body>
-    <%- include('./navbarestudiante.ejs')%>
+    <%- include('./estudiante_navbar.ejs')%>
         <h2 style="padding: 10px; outline:none; border: none; border-radius:5px; margin-top: 10px; text-align: center;">
             Solicitar Becas</h2>
 
@@ -58,11 +58,15 @@
                 </div>
             </div>
 
-            <div class="boton">
-                <button type="submit" class="btn-success"
-                    style="padding: 10px; outline:none; border: none; border-radius:5px"><i
-                        class="bi bi-save"></i>Solicitar </button>
-            </div>
+            <div class="mb-3" style="margin: 20px;">
+                <label for="fichaEstudiantil" class="form-label text-light">Ficha Estudiantil</label>
+                <input type="file" class="form-control" id="fichaEstudiantil" name="fichaEstudiantil" placeholder="Ficha Estudiantil" required>
+            </div>     
+            
+            
+            <div class="boton" style="margin: 20px;">
+                <button type="submit" class="btn-success" style="padding: 10px; outline:none; border: none; border-radius:5px"><i class="bi bi-save"></i>Solicitar Beca</button>
+              </div>
         </form>
 </body>
 

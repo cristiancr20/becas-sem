@@ -27,7 +27,6 @@ const Beca = mongoose.Schema({
         type: String,
         trim: true,
         require: true,
-        unique: true
     },
     genero: {
         type: String,
@@ -39,6 +38,18 @@ const Beca = mongoose.Schema({
         trim: true,
         require: true
     },
+    fichaEstudiantil: {
+        type: String,
+        trim: true,
+        require: true
+    },
+    estado:{
+        type: String,
+        trim: true,
+        require: true
+    }
+    
+
 }, { versionKey: false })
 
 module.exports = mongoose.model('beca', Beca);
