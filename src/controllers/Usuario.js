@@ -1,5 +1,5 @@
 const usuario = require('../models/usuario');
-
+const beca = require('../models/beca');
 
 // Crear un nuevo usuario
 exports.crearUsuario = (req, res) => {
@@ -38,8 +38,10 @@ exports.obtenerUsuarios = (req, res) => {
     )
 }
 
-// Iniciar sesion por roles
+let id;
 
+let correo;
+// Iniciar sesion por roles
 exports.iniciarSesion = (req, res) => {
 
     const { email, contrasena } = req.body;
@@ -55,21 +57,44 @@ exports.iniciarSesion = (req, res) => {
               })
         }
 
-        const correo = user.email;
+        correo = user.email;
         const password = user.contrasena;
         const rol = user.rol;
+        id = user._id;
+
 
         if (correo === email && contrasena === password && rol === "Tester") {
             console.log("Bienvenido Tester");
             
-            res.redirect('/tester');
+            res.redirect('/tester/'+id);
         } else if (correo === email && contrasena === password && rol === "Estudiante") {
             console.log("Bienvenido Estudiante");
-            res.redirect('/estudiante');
+            res.redirect('/estudiante/'+id);
         }
         else {
             console.log("Campos Invalidos");
-            
         }
+    })
+}
+
+//redirigir a la pagina de crear beca
+exports.redirigirCrearBeca = (req, res) =>{
+    res.redirect('/estudiante/solicitar/beca/'+id)
+}
+
+//redirigir a la pagina de revisar beca solicitada
+
+
+//listar beca por id
+exports.listarBeca = (req, res) => {
+    beca.find({ email: correo }).exec((err, data) => {
+        if (err) {
+            return res.status(400).json({
+                error: errorHandler(err)
+            });
+        }
+        return res.render('estudiante_revisar_beca.ejs', { data: data })
+        /* console.log(data) */
+
     })
 }

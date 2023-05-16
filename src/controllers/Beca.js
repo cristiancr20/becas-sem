@@ -1,5 +1,7 @@
 const beca = require('../models/beca');
+const usuario = require('../models/usuario');
 
+//HACE EL ESTUDIANTE
 // Crear una nueva beca
 exports.crearBeca = (req, res) => {
 
@@ -24,6 +26,10 @@ exports.crearBeca = (req, res) => {
         res.status(400).send('Hubo un error');
     }
 }
+
+
+
+//HACE EL TESTER
 
 // Obtener todas las becas pendientes
 exports.obtenerBecas = (req, res) => {
@@ -67,7 +73,7 @@ exports.obtenerBecasRechazadas = (req, res) => {
     })
 }
 
-//Editar beca aprobada
+//Editar beca aprobada (aprobar beca)
 exports.editarBecaAprobada = (req, res) => {
     const id = req.params._id;
     beca.findByIdAndUpdate(id, { estado: "Aprobada" }, { new: true })
@@ -86,7 +92,7 @@ exports.editarBecaAprobada = (req, res) => {
         );
 }
 
-//Editar beca rechazada
+//Editar beca rechazada (rechazar beca)
 exports.editarBecaRechazada = (req, res) => {
     const id = req.params._id;
     beca.findByIdAndUpdate(id, { estado: "Rechazada" }, { new: true })
@@ -104,3 +110,4 @@ exports.editarBecaRechazada = (req, res) => {
         }
         );
 }
+

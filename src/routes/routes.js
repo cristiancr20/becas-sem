@@ -5,10 +5,20 @@ const usuarioController = require('../controllers/Usuario');
 const becaController = require('../controllers/Beca');
 
 router.get('/login', (req, res)=> res.render('login.ejs'));
-router.get('/estudiante',(req, res)=> res.render('estudiante_home.ejs'));
-router.get('/tester',(req, res)=> res.render('tester_home.ejs'));
+router.get('/estudiante/:_id',(req, res)=> res.render('estudiante_home.ejs'));
+router.get('/tester/:_id',(req, res)=> res.render('tester_home.ejs'));
 router.get('/registrar',(req, res)=> res.render('registrar.ejs'));
-router.get('/solicitar/becas',(req, res)=> res.render('estudiante_becas.ejs'));
+router.get('/estudiante/solicitar/beca/:_id',(req, res)=> res.render('estudiante_solicitar_beca.ejs'));
+router.get('/estudiante/revisar/beca/',(req, res)=> res.render('estudiante_revisar_beca.ejs'));
+
+
+// Redigirir página crear beca
+router.get('/redirigir/crear/beca', usuarioController.redirigirCrearBeca);
+// Redigirir página revisar beca solcitada
+router.get('/redirigir/revisar/beca', usuarioController.listarBeca);
+
+
+
 
 
 // Crear un nuevo usuario
